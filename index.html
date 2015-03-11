@@ -8,7 +8,19 @@
     Hello, and welcome! You reached the main web page of the <a href="http://www.mpi-cbg.de/research/research-groups/pavel-tomancak.html">Tomancak Lab</a>
     <h1>Links</h1>
     <ul>
-      <li><a href="http://tomancaklab.github.io/git-workshop/">The Git/GitHub workshop</a></li>
+      <li><a href="https://tomancaklab.github.io/git-workshop/">The Git/GitHub workshop</a></li>
+      <li>A bookmarklet to help with editing GitHub wikis:
+      <a href="javascript:(function(){
+         var script = document.createElement('script');
+         script.type = 'text/javascript';
+         script.src = 'https://tomancaklab.github.io/markdown.min.js';
+         document.documentElement.appendChild(script);
+
+         script = document.createElement('script');
+         script.type = 'text/javascript';
+         script.src = 'https://tomancaklab.github.io/gfm-add-toc.js';
+         document.documentElement.appendChild(script);
+       })();">Insert TOC</a></li>
     </ul>
   </body>
 </html>
