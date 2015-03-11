@@ -20,7 +20,12 @@
          script.type = 'text/javascript';
          script.src = 'https://tomancaklab.github.io/gfm-add-toc.js';
          document.documentElement.appendChild(script);
-       })();">Insert TOC</a> (unfortunately, this requires <code>security.csp.enable</code> in <code>about:config</code> to be set to <code>true</code>).</li>
+       })();">Insert TOC</a> (unfortunately, this requires <code>security.csp.enable</code> in <code>about:config</code> to be set to <code>true</code>).<br /><br />
+       Click <a href="#" id="insert-toc-expand">here</a> to paste Markdown code and automatically insert a TOC.<br />
+       <textarea style="display: none;" id="insert-toc-textarea" cols=120 rows=40></textarea>
+       </li>
     </ul>
   </body>
+  <script type="text/javascript" src="./markdown.min.js"></script>
+  <script type="text/javascript" src="./gfm-add-toc.js"></script>
 </html>
