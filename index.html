@@ -9,22 +9,7 @@
     <h1>Links</h1>
     <ul>
       <li><a href="https://tomancaklab.github.io/git-workshop/">The Git/GitHub workshop</a></li>
-      <li>A <a href="gfm-add-toc.user.js">GreaseMonkey script</a> to add a "TOC" button to the GitHub wiki editor (in Firefox, this requires the <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">GreaseMonkey extension</a>).<br />
-      Obsolete: A bookmarklet to help with editing GitHub wikis:
-      <a href="javascript:(function(){
-         var script = document.createElement('script');
-         script.type = 'text/javascript';
-         script.src = 'https://tomancaklab.github.io/markdown.min.js';
-         document.documentElement.appendChild(script);
-
-         script = document.createElement('script');
-         script.type = 'text/javascript';
-         script.src = 'https://tomancaklab.github.io/gfm-add-toc.js';
-         document.documentElement.appendChild(script);
-       })();">Insert TOC</a> (unfortunately, this requires <code>security.csp.enable</code> in <code>about:config</code> to be set to <code>true</code>).<br /><br />
-       Click <a href="#" id="insert-toc-expand">here</a> to paste Markdown code and automatically insert a TOC.<br />
-       <textarea style="display: none;" id="insert-toc-textarea" cols=120 rows=40></textarea>
-       </li>
+      <li>A <a href="gfm-add-toc.user.js">GreaseMonkey script</a> to add a "TOC" button to the GitHub wiki editor (in Firefox, this requires the <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">GreaseMonkey extension</a>).</li>
     </ul>
   </body>
   <script type="text/javascript" src="./markdown.min.js"></script>
