@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name           Add a "TOC" button to GitHub wiki pages
 // @namespace      tomancaklab
-// @include        https://github.com/*
+// @include        http://github.com/*/wiki/*/_edit*
+// @include        https://github.com/*/wiki/*/_edit*
 // @grant          none
 // ==/UserScript==
 
 (function(){
   if (window.location.host != 'github.com' ||
-      !window.location.pathname.match(/.*\/wiki\/.*\/_edit$/))
+      !window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/))
     return; // not editing a GitHub wiki page
 
   var textarea = document.getElementById('gollum-editor-body');
