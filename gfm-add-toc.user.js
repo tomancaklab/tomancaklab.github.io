@@ -35,7 +35,7 @@
   };
   h1Button.parentNode.insertBefore(button, h1Button);
   /* GitHub disables this button ;-) */
-  //setTimeout(function() { button.className = 'minibutton function-button'; }, 100);
+  setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
   /* Helper to generate the Table of Contents entries */
   var toPlainText = function(list) {
