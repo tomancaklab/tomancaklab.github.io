@@ -6,6 +6,7 @@
 // @grant          none
 // ==/UserScript==
 
+
 (function(){
   if (window.location.host != 'github.com' ||
       !window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/))
@@ -22,14 +23,13 @@
 
   var self = this;
 
-  var button = document.createElement('a');
+  var button = document.createElement("button");
+  button.type = 'button';
   button.id = 'function-toc';
-  button.href = '#';
-  button.className = 'minibutton function-button';
+  button.class = 'btn btn-sm function-button';
   button.setAttribute('tabindex', '-1');
   button.setAttribute('title', 'Refresh table of contents');
-  button.setAttribute('role', 'button');
-  button.innerHTML = '<b>TOC</b>';
+  button.innerHTML = '<b>ToC</b>';
   button.onclick = function() {
     self.insertTOC(textarea);
   };
