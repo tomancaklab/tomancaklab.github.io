@@ -26,7 +26,7 @@
   var button = document.createElement("button");
   button.type = 'button';
   button.id = 'function-toc';
-  button.class = 'btn btn-sm function-button';
+  button.className = 'btn btn-sm BtnGroup-item function-button';
   button.setAttribute('tabindex', '-1');
   button.setAttribute('title', 'Refresh table of contents');
   button.innerHTML = '<b>ToC</b>';
@@ -34,9 +34,8 @@
     self.insertTOC(textarea);
   };
   h1Button.parentNode.insertBefore(button, h1Button);
-
   /* GitHub disables this button ;-) */
-  setTimeout(function() { button.className = 'minibutton function-button'; }, 100);
+  //setTimeout(function() { button.className = 'minibutton function-button'; }, 100);
 
   /* Helper to generate the Table of Contents entries */
   var toPlainText = function(list) {
