@@ -29,7 +29,7 @@
   button.setAttribute('tabindex', '-1');
   button.setAttribute('title', 'Refresh table of contents');
   button.setAttribute('role', 'button');
-  button.innerHTML = '<b>TOC</b>'
+  button.innerHTML = '<b>TOC</b>';
   button.onclick = function() {
     self.insertTOC(textarea);
   };
@@ -66,7 +66,7 @@
     var md = textarea.value;
 
     /* Strip out existing TOC, if any */
-    var tocStart = '** Table of contents **\n\n';
+    var tocStart = '**Table of Contents**\n\n';
     if (md.startsWith(tocStart))
       md = md.substring(tocStart.length).replace(/[^]*?\n\n/m, '');
 
