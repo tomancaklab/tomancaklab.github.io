@@ -56,10 +56,10 @@
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  if (h1Button)
-    childElement.parentNode.insertBefore(button, h1Button);
-  else
-    childElement.parentNode.insertAdjacentElement('afterbegin', button);
+  //if (h1Button)
+  //  childElement.parentNode.insertBefore(button, h1Button);
+  //else
+  childElement.parentNode.insertAdjacentElement('afterbegin', button);
 
   /* GitHub disables this button ;-) */
   if (h1Button)
