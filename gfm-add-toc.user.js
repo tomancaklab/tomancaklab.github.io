@@ -106,7 +106,7 @@
         var anchor = plainText.toLowerCase()
           .replace(/ /g, '-')
           .replace(/[^-A-Za-z0-9]/g, '');
-        toc += '* [' + plainText + '](#' + anchor + ')\n';
+        toc += '* [' + plainText + '](#' + anchor + ')  \n';
       }
     });
     toc += '\n';
