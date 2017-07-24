@@ -11,7 +11,7 @@
 (function(){
   if (window.location.host != 'github.com' ||
       !(window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/) ||
-      window.location.pathname.match(/.*\/edit\/.*#?$/))) {
+      window.location.pathname.match(/.*\/edit\/.*\.md$/))) {
     console.log("not on github!");
     return; // not editing a GitHub wiki page or github repo file
   }
