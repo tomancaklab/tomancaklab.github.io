@@ -9,29 +9,34 @@
 
 
 (function(){
+  var editingWiki = window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/);
+  var editingMDfile = window.location.pathname.match(/.*\/edit\/.*\.md$/);
   if (window.location.host != 'github.com' ||
-      !(window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/) ||
-      window.location.pathname.match(/.*\/edit\/.*\.md$/))) {
+      !(editingWiki || editingMDfile)){
     console.log("not on github!");
     return; // not editing a GitHub wiki page or github repo file
   }
 
-  var textarea = document.getElementById('gollum-editor-body');
-  if (!textarea) {
-      var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
-      var fileNameClassName = 'blob_contents_' + fileInput.value;
-      fileNameClassName = fileNameClassName.toLowerCase().replace(/\./g,'-');
-      console.log(fileNameClassName);
-      textarea = document.getElementById(fileNameClassName);
+  var textarea, childElement, h1Button, editButton, buttonClass;
+  if (editingWiki) {
+      textarea = document.getElementById('gollum-editor-body');
+      childElement = h1Button = document.getElementById('function-h1');
+      buttonClass = 'btn btn-sm BtnGroup-item function-button';
   }
-  var h1Button = document.getElementById('function-h1');
-  var editButton;
-  if (!h1Button) {
+  else if (editingMDfile) {
+    //var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
+    var fileInput = document.querySelector(".js-blob-filename.js-breadcrumb-nav");
+    var fileNameClassName = 'blob_contents_' + fileInput.value;
+    fileNameClassName = fileNameClassName.toLowerCase().replace(/\./g,'-');
+    console.log(fileNameClassName);
+    textarea = document.getElementById(fileNameClassName);
     //var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
     //var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
-    editButton = document.querySelector(".js-blob-edit-preview");
+    childElement = editButton = document.querySelector(".js-blob-edit-preview");
+    buttonClass = 'btn-link code selected tabnav-tab js-blob-edit-code';
   }
-  if (!textarea || !(h1Button || editButton)) {
+
+  if (!textarea || !childElement) {
     console.log("Could not find text area or <h1> button or \"Edit File\" button");
     console.log("text area:", textarea);
     console.log("h1:", h1Button);
@@ -44,22 +49,18 @@
   var button = document.createElement("button");
   button.type = 'button';
   button.id = 'function-toc';
-  button.className = 'btn btn-sm function-button';
+  button.className = buttonClass;
   button.setAttribute('tabindex', '-1');
   button.setAttribute('title', 'Refresh table of contents');
   button.innerHTML = '<b>ToC</b>';
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  if(h1Button)
-      h1Button.parentNode.insertBefore(button, h1Button);
-  else {
-      button.className = "btn-link code selected tabnav-tab js-blob-edit-code";
-      editButton.parentNode.insertAdjacentElement('afterbegin', button);
-  }
 
-  /* GitHub disables this button ;-) */
-  //setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
+  childElement.parentNode.insertAdjacentElement('afterbegin', button);
+  /* GitHub disables this button on Firefox; need to re-enable it again ;-) */
+  if (h1Button)
+    setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
   /* Helper to generate the Table of Contents entries */
   var toPlainText = function(list) {
