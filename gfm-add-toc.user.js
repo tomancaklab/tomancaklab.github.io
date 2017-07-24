@@ -56,8 +56,10 @@
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  //if h1Button -> childElement.parentNode.insertBefore(button, h1Button);
-  childElement.parentNode.insertAdjacentElement('afterbegin', button);
+  if (h1Button)
+    childElement.parentNode.insertBefore(button, h1Button);
+  else
+    childElement.parentNode.insertAdjacentElement('afterbegin', button);
 
   /* GitHub disables this button ;-) */
   //setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
