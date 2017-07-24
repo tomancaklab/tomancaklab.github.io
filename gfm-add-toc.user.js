@@ -39,9 +39,10 @@
     editButton = y;
   }
   if (!textarea || !(h1Button || editButton)) {
-    console.log("Could not find text area or <h1> button");
-    console.log(textarea);
-    console.log(h1Button);
+    console.log("Could not find text area or <h1> button or "Edit File" button");
+    console.log("text area:", textarea);
+    console.log("h1:", h1Button);
+    console.log("Edit:", editButton); 
     return;
   }
 
