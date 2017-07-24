@@ -13,10 +13,7 @@
       !(window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/) ||
       window.location.pathname.match(/.*\/edit\/.*#?$/))) {
     console.log("not on github!");
-    if (window.location.host != 'stackedit.co') {
-        console.log("not on stackedit either!");
-        return; // not editing a GitHub wiki page or on stackedit
-    }
+    return; // not editing a GitHub wiki page or github repo file
   }
 
   var textarea = document.getElementById('gollum-editor-body');
@@ -29,10 +26,6 @@
   }
   var h1Button = document.getElementById('function-h1');
   var editButton;
-  //if (!h1Button) {
-  //  h1Button = document.getElementById('wmd-bold-button');
-  //  console.log ("h1Button from stackedit.io");
-  //}
   if (!h1Button) {
     //var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
     var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
