@@ -3,18 +3,41 @@
 // @namespace      tomancaklab
 // @include        http://github.com/*/wiki/*/_edit*
 // @include        https://github.com/*/wiki/*/_edit*
+// @include        https://github.com/*/edit*
 // @grant          none
 // ==/UserScript==
 
 
 (function(){
   if (window.location.host != 'github.com' ||
-      !window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/))
-    return; // not editing a GitHub wiki page
+      !(window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/) ||
+      window.location.pathname.match(/.*\/edit\/.*#?$/))) {
+    console.log("not on github!");
+    if (window.location.host != 'stackedit.co') {
+        console.log("not on stackedit either!");
+        return; // not editing a GitHub wiki page or on stackedit
+    }
+  }
 
   var textarea = document.getElementById('gollum-editor-body');
+  if (!textarea) {
+      var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
+      var fileNameClassName = 'blob_contents_' + fileInput.value;
+      fileNameClassName = fileNameClassName.replace(/\./g,'-');
+      console.log(fileNameClassName);
+      textarea = document.getElementById(fileNameClassName);
+  }
   var h1Button = document.getElementById('function-h1');
-  if (!textarea || !h1Button) {
+  var editButton;
+  //if (!h1Button) {
+  //  h1Button = document.getElementById('wmd-bold-button');
+  //  console.log ("h1Button from stackedit.io");
+  //}
+  if (!h1Button) {
+    var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
+    editButton = y;
+  }
+  if (!textarea || !(h1Button || editButton)) {
     console.log("Could not find text area or <h1> button");
     console.log(textarea);
     console.log(h1Button);
@@ -33,7 +56,11 @@
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  h1Button.parentNode.insertBefore(button, h1Button);
+  if(h1Button)
+      h1Button.parentNode.insertBefore(button, h1Button);
+  else
+      editButton.parentNode.insertAdjacentElement('afterbegin', button);
+
   /* GitHub disables this button ;-) */
   //setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
