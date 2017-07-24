@@ -3,21 +3,39 @@
 // @namespace      tomancaklab
 // @include        http://github.com/*/wiki/*/_edit*
 // @include        https://github.com/*/wiki/*/_edit*
+// @include        https://github.com/*/edit*
 // @grant          none
 // ==/UserScript==
 
 
 (function(){
   if (window.location.host != 'github.com' ||
-      !window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/))
-    return; // not editing a GitHub wiki page
+      !(window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/) ||
+      window.location.pathname.match(/.*\/edit\/.*#?$/))) {
+    console.log("not on github!");
+    return; // not editing a GitHub wiki page or github repo file
+  }
 
   var textarea = document.getElementById('gollum-editor-body');
+  if (!textarea) {
+      var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
+      var fileNameClassName = 'blob_contents_' + fileInput.value;
+      fileNameClassName = fileNameClassName.replace(/\./g,'-');
+      console.log(fileNameClassName);
+      textarea = document.getElementById(fileNameClassName);
+  }
   var h1Button = document.getElementById('function-h1');
-  if (!textarea || !h1Button) {
-    console.log("Could not find text area or <h1> button");
-    console.log(textarea);
-    console.log(h1Button);
+  var editButton;
+  if (!h1Button) {
+    //var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
+    var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
+    editButton = y;
+  }
+  if (!textarea || !(h1Button || editButton)) {
+    console.log("Could not find text area or <h1> button or \"Edit File\" button");
+    console.log("text area:", textarea);
+    console.log("h1:", h1Button);
+    console.log("Edit:", editButton);
     return;
   }
 
@@ -33,7 +51,13 @@
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  h1Button.parentNode.insertBefore(button, h1Button);
+  if(h1Button)
+      h1Button.parentNode.insertBefore(button, h1Button);
+  else {
+      button.className = "btn-link code selected tabnav-tab js-blob-edit-code";
+      editButton.parentNode.insertAdjacentElement('afterbegin', button);
+  }
+
   /* GitHub disables this button ;-) */
   //setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
