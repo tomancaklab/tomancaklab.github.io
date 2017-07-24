@@ -34,14 +34,14 @@
   //  console.log ("h1Button from stackedit.io");
   //}
   if (!h1Button) {
-    var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
+    //var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
+    var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
     editButton = y;
   }
   if (!textarea || !(h1Button || editButton)) {
-    console.log("Could not find text area or <h1> button or "Edit File" button");
-    console.log("text area:", textarea);
-    console.log("h1:", h1Button);
-    console.log("Edit:", editButton); 
+    console.log("Could not find text area or <h1> button");
+    console.log(textarea);
+    console.log(h1Button);
     return;
   }
 
@@ -59,8 +59,10 @@
   };
   if(h1Button)
       h1Button.parentNode.insertBefore(button, h1Button);
-  else
+  else {
+      button.className = "btn-link code selected tabnav-tab js-blob-edit-code";
       editButton.parentNode.insertAdjacentElement('afterbegin', button);
+  }
 
   /* GitHub disables this button ;-) */
   //setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
