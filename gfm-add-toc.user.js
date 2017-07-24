@@ -58,9 +58,9 @@
   };
 
   childElement.parentNode.insertAdjacentElement('afterbegin', button);
-  /* GitHub disables this button ;-) */
-  //if (h1Button)
-  //  setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
+  /* GitHub disables this button on Firefox; need to re-enable it again ;-) */
+  if (h1Button)
+    setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
   /* Helper to generate the Table of Contents entries */
   var toPlainText = function(list) {
