@@ -20,7 +20,7 @@
   if (!textarea) {
       var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
       var fileNameClassName = 'blob_contents_' + fileInput.value;
-      fileNameClassName = fileNameClassName.replace(/\./g,'-');
+      fileNameClassName = fileNameClassName.toLowerCase().replace(/\./g,'-');
       console.log(fileNameClassName);
       textarea = document.getElementById(fileNameClassName);
   }
