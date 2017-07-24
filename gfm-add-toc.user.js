@@ -28,8 +28,8 @@
   var editButton;
   if (!h1Button) {
     //var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
-    var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
-    editButton = y;
+    //var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
+    editButton = document.querySelector(".js-blob-edit-preview");
   }
   if (!textarea || !(h1Button || editButton)) {
     console.log("Could not find text area or <h1> button or \"Edit File\" button");
