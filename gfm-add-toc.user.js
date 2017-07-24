@@ -21,7 +21,7 @@
   if (editingWiki) {
       textarea = document.getElementById('gollum-editor-body');
       childElement = h1Button = document.getElementById('function-h1');
-      buttonClass = 'btn btn-sm function-button';
+      buttonClass = 'btn btn-sm BtnGroup-item function-button';
   }
   else if (editingMDfile) {
     //var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
@@ -56,14 +56,11 @@
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  //if (h1Button)
-  //  childElement.parentNode.insertBefore(button, h1Button);
-  //else
-  childElement.parentNode.insertAdjacentElement('afterbegin', button);
 
+  childElement.parentNode.insertAdjacentElement('afterbegin', button);
   /* GitHub disables this button ;-) */
-  if (h1Button)
-    setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
+  //if (h1Button)
+  //  setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
   /* Helper to generate the Table of Contents entries */
   var toPlainText = function(list) {
