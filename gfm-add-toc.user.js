@@ -3,40 +3,64 @@
 // @namespace      tomancaklab
 // @include        http://github.com/*/wiki/*/_edit*
 // @include        https://github.com/*/wiki/*/_edit*
+// @include        https://github.com/*/edit*
 // @grant          none
 // ==/UserScript==
 
-(function(){
-  if (window.location.host != 'github.com' ||
-      !window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/))
-    return; // not editing a GitHub wiki page
 
-  var textarea = document.getElementById('gollum-editor-body');
-  var h1Button = document.getElementById('function-h1');
-  if (!textarea || !h1Button) {
-    console.log("Could not find text area or <h1> button");
-    console.log(textarea);
-    console.log(h1Button);
+(function(){
+  var editingWiki = window.location.pathname.match(/.*\/wiki\/.*\/_edit#?$/);
+  var editingMDfile = window.location.pathname.match(/.*\/edit\/.*\.md$/);
+  if (window.location.host != 'github.com' ||
+      !(editingWiki || editingMDfile)){
+    console.log("not on github!");
+    return; // not editing a GitHub wiki page or github repo file
+  }
+
+  var textarea, childElement, h1Button, editButton, buttonClass;
+  if (editingWiki) {
+      textarea = document.getElementById('gollum-editor-body');
+      childElement = h1Button = document.getElementById('function-h1');
+      buttonClass = 'btn btn-sm BtnGroup-item function-button';
+  }
+  else if (editingMDfile) {
+    //var fileInput = document.getElementsByClassName('form-control js-blob-filename js-breadcrumb-nav')[0];
+    var fileInput = document.querySelector(".js-blob-filename.js-breadcrumb-nav");
+    var fileNameClassName = 'blob_contents_' + fileInput.value;
+    fileNameClassName = fileNameClassName.toLowerCase().replace(/\./g,'-');
+    console.log(fileNameClassName);
+    textarea = document.getElementById(fileNameClassName);
+    //var y = document.getElementsByClassName("btn-link preview tabnav-tab js-blob-edit-preview")[0];
+    //var y = document.querySelector("button.btn-link.preview.tabnav-tab.js-blob-edit-preview");
+    childElement = editButton = document.querySelector(".js-blob-edit-preview");
+    buttonClass = 'btn-link code selected tabnav-tab js-blob-edit-code';
+  }
+
+  if (!textarea || !childElement) {
+    console.log("Could not find text area or <h1> button or \"Edit File\" button");
+    console.log("text area:", textarea);
+    console.log("h1:", h1Button);
+    console.log("Edit:", editButton);
     return;
   }
 
   var self = this;
 
-  var button = document.createElement('a');
+  var button = document.createElement("button");
+  button.type = 'button';
   button.id = 'function-toc';
-  button.href = '#';
-  button.className = 'minibutton function-button';
+  button.className = buttonClass;
   button.setAttribute('tabindex', '-1');
   button.setAttribute('title', 'Refresh table of contents');
-  button.setAttribute('role', 'button');
-  button.innerHTML = '<b>TOC</b>'
+  button.innerHTML = '<b>ToC</b>';
   button.onclick = function() {
     self.insertTOC(textarea);
   };
-  h1Button.parentNode.insertBefore(button, h1Button);
 
-  /* GitHub disables this button ;-) */
-  setTimeout(function() { button.className = 'minibutton function-button'; }, 100);
+  childElement.parentNode.insertAdjacentElement('afterbegin', button);
+  /* GitHub disables this button on Firefox; need to re-enable it again ;-) */
+  if (h1Button)
+    setTimeout(function() { button.className = 'btn btn-sm BtnGroup-item function-button'; }, 100);
 
   /* Helper to generate the Table of Contents entries */
   var toPlainText = function(list) {
@@ -66,7 +90,7 @@
     var md = textarea.value;
 
     /* Strip out existing TOC, if any */
-    var tocStart = '** Table of contents **\n\n';
+    var tocStart = '**Table of Contents**\n\n';
     if (md.startsWith(tocStart))
       md = md.substring(tocStart.length).replace(/[^]*?\n\n/m, '');
 
@@ -82,7 +106,7 @@
         var anchor = plainText.toLowerCase()
           .replace(/ /g, '-')
           .replace(/[^-A-Za-z0-9]/g, '');
-        toc += '* [' + plainText + '](#' + anchor + ')\n';
+        toc += '* [' + plainText + '](#' + anchor + ')  \n';
       }
     });
     toc += '\n';
